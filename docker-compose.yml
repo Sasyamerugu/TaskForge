@@ -1,0 +1,42 @@
+services:
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      TASKFORGE_DB_PATH: /data/taskforge.db
+    volumes:
+      - .:/app
+      - taskforge-data:/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      TASKFORGE_DB_PATH: /data/taskforge.db
+    volumes:
+      - .:/app
+      - taskforge-data:/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+volumes:
+  taskforge-data:

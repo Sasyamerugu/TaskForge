@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+redis
+rq==1.16.2
