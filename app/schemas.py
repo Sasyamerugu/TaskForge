@@ -21,3 +21,4 @@ class JobResponse(BaseModel):
     }
     priority: str
     effective_priority: str
+

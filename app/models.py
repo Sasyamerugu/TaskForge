@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Text, DateTime, Integer
 from sqlalchemy.sql import func
 
 
-from database import Base
+from app.database import Base
 
 
 class Job(Base):
@@ -45,3 +45,4 @@ class Job(Base):
         nullable=False,
         default="medium"
     )
+

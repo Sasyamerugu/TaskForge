@@ -49,3 +49,5 @@ def downgrade() -> None:
     op.drop_column('jobs', 'effective_priority')
     op.drop_column('jobs', 'priority')
     # ### end Alembic commands ###
+
+

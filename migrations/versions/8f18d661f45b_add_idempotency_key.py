@@ -32,3 +32,5 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_jobs_idempotency_key'), table_name='jobs')
     op.drop_column('jobs', 'idempotency_key')
     # ### end Alembic commands ###
+
+

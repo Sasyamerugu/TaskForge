@@ -1,4 +1,4 @@
-from queue_config import redis_connection
+from app.queue_config import redis_connection
 
 
 def cancellation_key(job_id: str) -> str:
@@ -19,3 +19,4 @@ def is_cancellation_requested(job_id: str) -> bool:
 
 def clear_cancellation(job_id: str):
     redis_connection.delete(cancellation_key(job_id))
+

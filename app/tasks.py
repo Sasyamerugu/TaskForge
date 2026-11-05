@@ -4,9 +4,9 @@ import time
 
 from sqlalchemy import update
 
-from database import SessionLocal
-from models import Job
-from cancellation import clear_cancellation
+from app.database import SessionLocal
+from app.models import Job
+from app.cancellation import clear_cancellation
 
 
 class JobCancelled(Exception):
@@ -222,3 +222,5 @@ def execute_task(job_id: str):
 
     finally:
         db.close()
+
+

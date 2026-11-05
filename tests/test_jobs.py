@@ -4,7 +4,7 @@ def test_create_job(client, monkeypatch):
         return None
 
     monkeypatch.setattr(
-        "main.high_queue.enqueue",
+        "app.main.high_queue.enqueue",
         fake_enqueue
     )
 
@@ -36,7 +36,7 @@ def test_idempotency_prevents_duplicate_jobs(client, monkeypatch):
         enqueue_calls.append(kwargs)
 
     monkeypatch.setattr(
-        "main.high_queue.enqueue",
+        "app.main.high_queue.enqueue",
         fake_enqueue
     )
 
@@ -70,7 +70,7 @@ def test_idempotency_key_conflict(client, monkeypatch):
         pass
 
     monkeypatch.setattr(
-        "main.high_queue.enqueue",
+        "app.main.high_queue.enqueue",
         fake_enqueue
     )
 
@@ -103,7 +103,7 @@ def test_get_job_by_id(client, monkeypatch):
         pass
 
     monkeypatch.setattr(
-        "main.high_queue.enqueue",
+        "app.main.high_queue.enqueue",
         fake_enqueue
     )
 
@@ -159,7 +159,7 @@ def test_list_jobs(client, monkeypatch):
     def fake_enqueue(*args, **kwargs):
         pass
 
-    monkeypatch.setattr("main.high_queue.enqueue", fake_enqueue)
+    monkeypatch.setattr("app.main.high_queue.enqueue", fake_enqueue)
 
     client.post(
         "/jobs",
@@ -179,7 +179,7 @@ def test_cancel_queued_job(client, monkeypatch):
     def fake_enqueue(*args, **kwargs):
         pass
 
-    monkeypatch.setattr("main.high_queue.enqueue", fake_enqueue)
+    monkeypatch.setattr("app.main.high_queue.enqueue", fake_enqueue)
 
     create_response = client.post(
         "/jobs",
@@ -201,7 +201,7 @@ def test_cancel_completed_job(client, monkeypatch):
     def fake_enqueue(*args, **kwargs):
         pass
 
-    monkeypatch.setattr("main.high_queue.enqueue", fake_enqueue)
+    monkeypatch.setattr("app.main.high_queue.enqueue", fake_enqueue)
 
     create_response = client.post(
         "/jobs",
@@ -214,8 +214,8 @@ def test_cancel_completed_job(client, monkeypatch):
 
     job_id = create_response.json()["id"]
 
-    import main
-    from models import Job
+    import app.main as main
+    from app.models import Job
 
     test_get_db = main.app.dependency_overrides[main.get_db]
     db_generator = test_get_db()
@@ -244,9 +244,9 @@ def test_priority_routes_to_correct_queue(client, monkeypatch):
     def fake_low(*args, **kwargs):
         calls["low"] += 1
 
-    monkeypatch.setattr("main.high_queue.enqueue", fake_high)
-    monkeypatch.setattr("main.medium_queue.enqueue", fake_medium)
-    monkeypatch.setattr("main.low_queue.enqueue", fake_low)
+    monkeypatch.setattr("app.main.high_queue.enqueue", fake_high)
+    monkeypatch.setattr("app.main.medium_queue.enqueue", fake_medium)
+    monkeypatch.setattr("app.main.low_queue.enqueue", fake_low)
 
     response = client.post(
         "/jobs",
@@ -259,3 +259,5 @@ def test_priority_routes_to_correct_queue(client, monkeypatch):
 
     assert response.status_code == 200
     assert calls == {"high": 0, "medium": 0, "low": 1}
+
+

@@ -1,7 +1,7 @@
 
 from sqlalchemy import inspect
 
-from database import engine
+from app.database import engine
 
 with engine.begin() as connection:
     columns = {
@@ -17,3 +17,5 @@ with engine.begin() as connection:
         print("Added retry_count column successfully.")
     else:
         print("retry_count column already exists.")
+
+

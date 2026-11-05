@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 
-from callbacks import handle_job_failure
-from models import Job
+from app.callbacks import handle_job_failure
+from app.models import Job
 
 
 # TEST 17: Worker crash with retries remaining
@@ -11,9 +11,9 @@ def test_failure_callback_marks_job_retrying(
     def fake_enqueue(*args, **kwargs):
         pass
 
-    monkeypatch.setattr("main.high_queue.enqueue", fake_enqueue)
+    monkeypatch.setattr("app.main.high_queue.enqueue", fake_enqueue)
     monkeypatch.setattr(
-        "callbacks.SessionLocal",
+        "app.callbacks.SessionLocal",
         test_session_local
     )
 
@@ -63,9 +63,9 @@ def test_failure_callback_marks_job_failed(
     def fake_enqueue(*args, **kwargs):
         pass
 
-    monkeypatch.setattr("main.high_queue.enqueue", fake_enqueue)
+    monkeypatch.setattr("app.main.high_queue.enqueue", fake_enqueue)
     monkeypatch.setattr(
-        "callbacks.SessionLocal",
+        "app.callbacks.SessionLocal",
         test_session_local
     )
 
@@ -106,3 +106,6 @@ def test_failure_callback_marks_job_failed(
 
         assert job.status == "failed"
         assert job.error == "Retries exhausted"
+
+
+

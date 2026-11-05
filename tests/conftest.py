@@ -4,8 +4,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import main
-from database import Base
+import app.main as main
+from app.database import Base
 
 
 @pytest.fixture
@@ -45,3 +45,5 @@ def client(test_session_local):
         yield test_client
 
     main.app.dependency_overrides.clear()
+
+

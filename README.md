@@ -66,14 +66,16 @@ The API and worker operate as separate processes and communicate through Redis a
 
 ```text
 TaskForge/
-├── main.py                 # FastAPI application and endpoints
-├── tasks.py                # Background task execution
-├── models.py               # SQLAlchemy job model
-├── schemas.py              # Pydantic schemas
-├── database.py             # Database configuration
-├── queue_config.py         # Redis and RQ configuration
-├── callbacks.py             # Job failure handling
-├── cancellation.py         # Cancellation coordination
+├── app/
+│   ├── __init__.py
+│   ├── main.py                 # FastAPI application and endpoints
+│   ├── tasks.py                # Background task execution
+│   ├── models.py               # SQLAlchemy job model
+│   ├── schemas.py              # Pydantic schemas
+│   ├── database.py             # Database configuration
+│   ├── queue_config.py         # Redis and RQ configuration
+│   ├── callbacks.py            # Job failure handling
+│   └── cancellation.py         # Cancellation coordination
 ├── migrations/             # Alembic migrations
 ├── tests/
 │   ├── conftest.py
@@ -157,7 +159,7 @@ Make sure Redis is running locally or configure the Redis connection using `REDI
 ### 4. Start the API
 
 ```powershell
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 ### 5. Start the worker

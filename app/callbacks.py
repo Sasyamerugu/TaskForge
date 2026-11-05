@@ -1,7 +1,7 @@
 from sqlalchemy import update
 
-from database import SessionLocal
-from models import Job
+from app.database import SessionLocal
+from app.models import Job
 
 
 def handle_job_failure(job, connection, exc_type, exc_value, traceback):
@@ -56,3 +56,4 @@ def handle_job_failure(job, connection, exc_type, exc_value, traceback):
 
     finally:
         db.close()
+

@@ -1,8 +1,8 @@
 import json
 import pytest
-import tasks
+import app.tasks as tasks
 
-from models import Job
+from app.models import Job
 
 
 def create_test_job(client, monkeypatch, task_type, input_data):
@@ -10,7 +10,7 @@ def create_test_job(client, monkeypatch, task_type, input_data):
         pass
 
     monkeypatch.setattr(
-        "main.high_queue.enqueue",
+        "app.main.high_queue.enqueue",
         fake_enqueue
     )
 
@@ -87,3 +87,5 @@ def test_execute_cancelled_job(client, monkeypatch, test_session_local):
     response = client.get(f"/jobs/{job_id}")
 
     assert response.json()["status"] == "cancelled"
+
+

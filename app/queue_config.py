@@ -11,3 +11,4 @@ medium_queue = Queue("medium", connection=redis_connection)
 low_queue = Queue("low", connection=redis_connection)
 
 job_retry = Retry(max=3, interval=5)
+
